@@ -1,36 +1,47 @@
 #include <iostream>
-#include <map>
+#include <vector>
+#include <limits>
 
 using namespace std;
 
-class Tribo {
-public:
-    int calc(int n, map<int, int> &memo) {
-        if (memo.find(n) != memo.end()) {
-            return memo[n];
+int tribonacci(int n) {
+    // Handle base cases directly
+    if (n == 0) return 0;
+    if (n == 1 || n == 2) return 1;
+
+    // Create a vector to store Tribonacci numbers
+    vector<int> trib(n + 1);
+    trib[0] = 0;
+    trib[1] = 1;
+    trib[2] = 1;
+
+    // Iteratively calculate the Tribonacci numbers
+    for (int i = 3; i <= n; ++i) {
+        trib[i] = trib[i - 1] + trib[i - 2] + trib[i - 3];
+    }
+
+    return trib[n];
+}
+
+int main() {
+    int n;
+
+    cout << "Enter a non-negative integer for n: ";
+    while (true) {
+        cin >> n;
+        // Input validation: Check for non-integer and negative input
+        if (cin.fail() || n < 0) {
+            cin.clear(); // clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
+            cout << "Invalid input. Please enter a non-negative integer: ";
         } else {
-            int sol = calc(n - 1, memo) + calc(n - 2, memo) + calc(n - 3, memo);
-            memo[n] = sol;
-            return sol;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard remaining input
+            break; // valid input, exit the loop
         }
     }
 
-    int tribonacci(int n) {
-        map<int, int> memo;
-        memo[0] = 0;
-        memo[1] = 1;
-        memo[2] = 1;
-        
-        return calc(n, memo);
-    }
-};
+    int result = tribonacci(n);
+    cout << "Tribonacci(" << n << ") = " << result << endl;
 
-int main() {
-    Tribo t;
-    int n;
-    cout << "Enter a number: ";
-    cin >> n;
-    int result = t.tribonacci(n);
-    cout << "Tribonacci of " << n << " is: " << result << endl;
     return 0;
 }
