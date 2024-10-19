@@ -1,57 +1,38 @@
-/* 
-*****************************************************************
-                        Algorithm
-1. Initialize a variable max with the first element of the array.
-2. Loop through the entire array.
-3. In each iteration, compare the current element with max.
-4. If the current element is greater than max, update max.
-5. After the loop, max will hold the largest number in the array. 
-
-*****************************************************************
-*/
-
 #include <iostream>
-#include <vector>
 using namespace std;
 
-// Function to find the largest element in the array
-int findLargest(const vector<int>& arr) {
-    int max = arr[0];
-    for (int i = 1; i < arr.size(); i++) {
+// Function to find the largest number in an array
+int findLargest(int arr[], int size) {
+    int max = arr[0];  // Initialize max with the first element
+
+    // Traverse the array and find the largest element
+    for (int i = 1; i < size; ++i) {
         if (arr[i] > max) {
-            max = arr[i];
+            max = arr[i];  // Update max if a larger value is found
         }
     }
+
     return max;
 }
 
 int main() {
     int n;
 
-    // Input number of elements
-    cout << "Enter the number of elements: ";
+    // Input size of the array
+    cout << "Enter the size of the array: ";
     cin >> n;
 
-    // Check for valid input
-    if (n <= 0) {
-        cout << "Number of elements must be positive." << endl;
-        return 1;
-    }
+    int arr[n];  // Declare the array
 
-    vector<int> arr(n);
-
-    // Input array elements
-    cout << "Enter the elements of the array: ";
-    for (int i = 0; i < n; i++) {
+    // Input elements of the array
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; ++i) {
         cin >> arr[i];
     }
 
-    // Find the largest element
-    int max = findLargest(arr);
-
-    // Output the largest element
-    cout << "The largest number is: " << max << endl;
+    // Find and print the largest element
+    int largest = findLargest(arr, n);
+    cout << "The largest element is: " << largest << endl;
 
     return 0;
 }
-
