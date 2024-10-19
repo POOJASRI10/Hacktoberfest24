@@ -1,63 +1,31 @@
 
 #include <iostream>
-#include <bits/stdc++.h>
-
 using namespace std;
 
-// Node class represents a  node in a linked list
-class Node {
-public:
-  
-int data;   
-Node* next;      
-
-    Node(int data1, Node* next1) {
-        data = data1;
-        next = next1;
-    }
-
-   
-    Node(int data1) {
-        data = data1;
-        next = nullptr;
-    }
+// Node structure
+struct Node {
+    int data;
+    Node* next;
 };
 
-// Function to reverse a singly linked list using a recursion
+// Function to reverse the linked list
+Node* reverseList(Node* head) {
+    Node* prev = nullptr;  // Previous node starts as NULL
+    Node* current = head;  // Current node is the head of the list
+    Node* next = nullptr;  // To store the next node temporarily
 
-Node* reverseLinkedList(Node* head) {
-    // Base case:
-    // If the linked list is empty or has only one node,
-    // return the head as it is already reversed.
-    if (head == NULL || head->next == NULL) {
-        return head;
+    while (current != nullptr) {
+        next = current->next;   // Save the next node
+        current->next = prev;   // Reverse the link
+        prev = current;         // Move prev one step ahead
+        current = next;         // Move current one step ahead
     }
-    
-    // Recursive step:
-    // Reverse the linked list starting 
-    // from the second node (head->next).
-    Node* newHead = reverseLinkedList(head->next);
-    
-    // Save a reference to the node following
-    // the current 'head' node.
-    Node* front = head->next;
-    
-    // Make the 'front' node point to the current
-    // 'head' node in the reversed order.
-    front->next = head;
-    
-    // Break the link from the current 'head' node
-    // to the 'front' node to avoid cycles.
-    head->next = NULL;
-    
-    // Return the 'newHead,' which is the new
-    // head of the reversed linked list.
-    return newHead;
+
+    return prev;  // New head of the reversed list
 }
 
-
 // Function to print the linked list
-void printLinkedList(Node* head) {
+void printList(Node* head) {
     Node* temp = head;
     while (temp != nullptr) {
         cout << temp->data << " ";
@@ -66,25 +34,32 @@ void printLinkedList(Node* head) {
     cout << endl;
 }
 
+// Helper function to add a new node at the beginning
+void push(Node*& head, int new_data) {
+    Node* new_node = new Node();  // Create a new node
+    new_node->data = new_data;    // Assign data
+    new_node->next = head;        // Make it point to the old head
+    head = new_node;              // Update head to new node
+}
+
 int main() {
-    // Create a linked list with
-    // values 1, 3, 2, and 4
-    Node* head = new Node(1);
-    head->next = new Node(3);
-    head->next->next = new Node(2);
-    head->next->next->next = new Node(4);
+    Node* head = nullptr;
 
-    // Print the original linked list
-    cout << "Original Linked List: ";
-    printLinkedList(head);
+    // Create a list: 1 -> 2 -> 3 -> 4 -> 5
+    push(head, 5);
+    push(head, 4);
+    push(head, 3);
+    push(head, 2);
+    push(head, 1);
 
-    // Reverse the linked list
-    head = reverseLinkedList(head);
+    cout << "Original list: ";
+    printList(head);
 
-    // Print the reversed linked list
-    cout << "Reversed Linked List: ";
-    printLinkedList(head);
+    // Reverse the list
+    head = reverseList(head);
+
+    cout << "Reversed list: ";
+    printList(head);
 
     return 0;
 }
-
